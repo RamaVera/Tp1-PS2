@@ -33,7 +33,7 @@ legend(legends)
 close all; 
 clear all; 
 
-mu = 0.004 : 0.0010 : 0.09;
+mu = 0.004 : 0.0010 : 0.009;
 M = 11;
 r = 5;
 N = 2000;
@@ -57,6 +57,8 @@ for j=1 : length(mu)
 end
 title('Estimacion curva de aprendizaje para distintas constantes de aprendizaje');
 legend(legends)
+ylim([0 0.1]);
+xlim([100 N]);
 
 %% Item 1.3
 close all; 
@@ -86,3 +88,5 @@ for j=1 : length(r)
 end
 title('Estimacion curva de aprendizaje para distintos valores de retardo');
 legend(legends)
+ylim([0 0.1]);
+xlim([100 N]);
