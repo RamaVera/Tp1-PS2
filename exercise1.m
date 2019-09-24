@@ -1,8 +1,7 @@
+%% Item 1.1
 close all; 
 clear all; 
-clc
 
-%% Item 1.1
 M = 4:7;
 mu = 0.0075;
 r = 5;
@@ -10,7 +9,7 @@ N = 2000;
 L = 5;
 W = 2.9;
 noise_variance = 0.001;
-num_experiments = 100;
+num_experiments = 50;
 figure();
 hold on;
 legends = strings(length(M),1);
@@ -25,11 +24,16 @@ for j=1 : length(M)
     plot(J_estimation);
     legends(j) = sprintf('M = %u',M(j));
 end
+ylim([0 0.1]);
+xlim([100 N]);
 title('Estimacion curva de aprendizaje para distintos largos del filtro equalizador');
 legend(legends)
 
 %% Item 1.2
-mu = 0.001 : 0.0010 : 0.01;
+close all; 
+clear all; 
+
+mu = 0.004 : 0.0010 : 0.09;
 M = 11;
 r = 5;
 N = 2000;
@@ -55,6 +59,9 @@ title('Estimacion curva de aprendizaje para distintas constantes de aprendizaje'
 legend(legends)
 
 %% Item 1.3
+close all; 
+clear all; 
+
 mu = 0.0075;
 M = 11;
 r = 3:1:7;
