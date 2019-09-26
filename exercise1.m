@@ -33,14 +33,14 @@ legend(legends)
 close all; 
 clear all; 
 
-mu = 0.004 : 0.0010 : 0.009;
+mu = [0.004 0.006 0.009 0.01 0.02 0.08 0.1 0.11];
 M = 11;
 r = 5;
 N = 2000;
 L = 5;
 W = 2.9;
 noise_variance = 0.001;
-num_experiments = 100;
+num_experiments = 500;
 figure();
 hold on;
 legends = strings(length(M),1);
@@ -57,8 +57,8 @@ for j=1 : length(mu)
 end
 title('Estimacion curva de aprendizaje para distintas constantes de aprendizaje');
 legend(legends)
-ylim([0 0.1]);
-xlim([100 N]);
+ylim([0 1]);
+xlim([0 1000]);
 
 %% Item 1.3
 close all; 
