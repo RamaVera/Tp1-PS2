@@ -35,6 +35,9 @@ for W=W
     plot(e, 'r')
     legend('señal','error')
     title(['Error y señal recuperada para W=', num2str(W)])
+    string=num2str(W);
+    string(string=='.')=',';
+    print(['ErrorW=',string],'-dpng')
     
     figure
     plot(e_medio,'r')
@@ -42,16 +45,22 @@ for W=W
     frequency_vector=(0:N_fft-1)/N_fft*2*pi; %vector de frecuencias 
     
     figure
-    plot(frequency_vector, 20*log10(abs(fft(eq_filt,N_fft))), 'y')
+    plot(frequency_vector/pi, 20*log10(abs(fft(eq_filt,N_fft))), 'y')
     hold
-    plot(frequency_vector, 20*log10(abs(fft(h,N_fft))), 'r')
-    plot(frequency_vector, 20*log10(abs(fft(w_eq,N_fft))))
+    plot(frequency_vector/pi, 20*log10(abs(fft(h,N_fft))), 'r')
+    plot(frequency_vector/pi, 20*log10(abs(fft(w_eq,N_fft))))
     legend('Global','Canal','Equalizador')
     ylabel('|H(w)|  (dB)')
-    xlabel('w (rad/s)')
+    xlabel('w/pi (rad/s)')
     title(['Respuesta de los filtros para W=', num2str(W)])
+    string=num2str(W);
+    string(string=='.')=',';
+    print(['AnchoBandaW=',string],'-dpng')
     
     figure
     stem(eq_filt)
     title(['Respuesta impulsiva del filtro equivalente para W=', num2str(W)])
+    string=num2str(W);
+    string(string=='.')=',';
+    print(['RespImpW=',string],'-dpng')
 end
