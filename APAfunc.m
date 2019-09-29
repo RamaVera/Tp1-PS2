@@ -1,10 +1,10 @@
-function [e, y, w]=APAfunc(u, d, M, O, mu)
+function [e, y, w]=APAfunc(u, d, M, mu, O)
 %u input
 %d signal to estimate
 %M adaptative filter order
 %O Proyection Order
 
-    epsilon=0.01;
+    epsilon=0.01/O;
 
     N=length(u);
     w=zeros(M,1);
@@ -18,7 +18,7 @@ function [e, y, w]=APAfunc(u, d, M, O, mu)
         Y=X*w;
         w=w+mu*X'*inv(epsilon*eye(O,O)+X*X')*E;
         
-        e(k+O-1)=E(1);
-        y(k+O-1)=Y(1);
+        e(k)=mean(E);
+        y(k)=mean(Y);
     end
 end
