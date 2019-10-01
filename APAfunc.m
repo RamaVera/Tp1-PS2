@@ -4,7 +4,7 @@ function [e, y, w, w_n]=APAfunc(u, d, M, mu, O)
 %M adaptative filter order
 %O Proyection Order
 
-    epsilon=0.01/O;
+    epsilon=1;
 
     N=length(u);
     w=zeros(M,1);
@@ -19,7 +19,20 @@ function [e, y, w, w_n]=APAfunc(u, d, M, mu, O)
         Y=X*w;
         w_n(:, k) = w;
         w=w+mu*X'*inv(epsilon*eye(O,O)+X*X')*E;
-        e(k)=mean(E);
-        y(k)=mean(Y);
+        
+        if k==1
+            %Em(k,:)=E;
+            aux=E;
+        else
+            %Em(:,end+1)=0;
+            %Em(k,:)=[zeros(k-1,1);E]';
+            aux(end+1)=E(1);
+        end
+        %e(k)=mean(E);
+        y(k)=mean(Y); 
     end
+        e=aux';
+%         for i=1:length(Em)
+%             %e(i)=sum(Em(:,i).^2)/2000;   
+%         end
 end
