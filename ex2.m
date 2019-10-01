@@ -37,7 +37,7 @@ for W=W
     title(['Error y señal recuperada para W=', num2str(W)])
     string=num2str(W);
     string(string=='.')=',';
-    print(['imagenes/ErrorW=',string],'-dpng')
+    print(['Resources/Ejercicio2/ErrorW=',string],'-dpng')
     
     figure
     plot(e_medio,'r')
@@ -55,14 +55,14 @@ for W=W
     title(['Respuesta de los filtros para W=', num2str(W)])
     string=num2str(W);
     string(string=='.')=',';
-    print(['imagenes/AnchoBandaW=',string],'-dpng')
+    print(['Resources/Ejercicio2/ErrorW=',string],'-dpng')
     
     figure
     stem(eq_filt)
     title(['Respuesta impulsiva del filtro equivalente para W=', num2str(W)])
     string=num2str(W);
     string(string=='.')=',';
-    print(['imagenes/RespImpW=',string],'-dpng')
+    print(['Resources/Ejercicio2/ErrorW=',string],'-dpng')
     
     %testeo de singularidad de la matriz Ruu
     [A,R]=corrmtx(u,M);

@@ -64,12 +64,12 @@ W1 = 2.9;
 W2 = 3.4;
 noise_variance = 0.001;
 num_experiments = 20;
-
+legends=[];
 LMSBuff={'lms',[0.02,0,0]};
 NLMSBuff={'nlms',[1,0,0]};
 RLSBuff={'rls',[0,1,0]};
 APABuff={'apa',[1,0,10]};
-FilterBuffer={LMSBuff,NLMSBuff,RLSBuff,APABuff};
+FilterBuffer={APABuff,RLSBuff,NLMSBuff,LMSBuff};
 
 for j=1 : length(FilterBuffer)
     filterType=FilterBuffer{j}{1};
@@ -85,10 +85,23 @@ for j=1 : length(FilterBuffer)
         [e, y, w_eq, w_n]= adapFilterfunc(filterType, u, d, M, params);
         J_estimation(:, i) = abs(e).^2;
     end
-    J_estimation2(:,j) =  mean(J_estimation, 2);
+    J_estimationAll(:,j) =  mean(J_estimation, 2);
+    legends{j} = sprintf('Filtro = %s',filterType);
 end
 
-figure();
+figure(1);
 hold on;
-plot((J_estimation2));
+plot((J_estimationAll));
+title('Convergencia antes cambios abruptos');
+legend(legends)
+print(['Resources/Ejercicio4/CambioJAll'],'-dpng')
+
+figure(2);
+hold on;
+plot(20*log(J_estimationAll));
+legend(legends)
+title('Convergencia antes cambios abruptos en dB');
+print(['Resources/Ejercicio4/CambioJAlldB'],'-dpng')
+
+    
 end
