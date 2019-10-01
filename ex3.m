@@ -1,76 +1,36 @@
-clear all; close all; clc
+%% Item 1.1
+close all; 
+clear all; 
 
-noise_sigma=sqrt(0.001);
-N=10000;
-r=3;
-M=5;
+M = 11;
+mu = 0.0075;
+r = 5;
+N = 10000;
+L = 5;
+W1 = 2.9;
+W2 = 3.4;
+noise_variance = 0.001;
+num_experiments = 200;
 
-L=5; n_h=[1,2,3];
-W1=2.9;
-h1=1/2*(1+cos(2*pi/W1*(n_h-(L-1)/2)));
-W2=3.3;
-h2=1/2*(1+cos(2*pi/W2*(n_h-(L-1)/2)));
+J_estimation = zeros(N, num_experiments);
+for i=1 : num_experiments
+    [d1, u1] = build_signals(r, N/2, L, W1, noise_variance);
+    [d2, u2] = build_signals(r, N/2, L, W2, noise_variance);
+    sum(abs(u1).^2)
+    sum(abs(u2).^2)
+    u = [u1 ; u2];
+    d = [d1 ; d2];
+    [e, y, w_eq, w_n] = LMSfunc(u, d, M, mu);
+    J_estimation(:, i) = abs(e).^2;
+end
+J_estimation =  mean(J_estimation, 2);
 
-msg=binornd(1,0.5, N/2,1)*2-1;
-u1=filter(h1,1,msg);
-msg=binornd(1,0.5, N/2,1)*2-1;
+figure();
+hold on;
+plot(20*log10(J_estimation));
 
-
-delay=[zeros(r, 1); 1];
-d=filter(delay,1,msg);
-u=filter(h,1,msg)+randn(N,1)*noise_sigma;
-
-[e,y,w_eq]=LMSfunc(u,d,M,0.0075);
-
-figure
-plot(y)
-hold
-plot(e.^2, 'r')
-legend('señal','error')
-
-eq_filt=conv(w_eq,h);
-figure
-plot(abs(fft(eq_filt,1000)), 'y')
-hold
-plot(abs(fft(h,1000)), 'r')
-plot(abs(fft(w_eq,1000)))
-legend('Global','Canal','Equalizador')
-
-figure
-stem(eq_filt)
-title('Respuesta impulsiva del filtro equivalente')clear all; close all; clc
-
-noise_sigma=sqrt(0.001);
-N=10000;
-r=3;
-M=5;
-
-L=5; n_h=[1,2,3];
-W=3.4;
-h=1/2*(1+cos(2*pi/W*(n_h-(L-1)/2)));
-
-msg=binornd(1,0.5, N,1)*2-1;
-
-delay=[zeros(r, 1); 1];
-d=filter(delay,1,msg);
-u=filter(h,1,msg)+randn(N,1)*noise_sigma;
-
-[e,y,w_eq]=LMSfunc(u,d,M,0.0075);
-
-figure
-plot(y)
-hold
-plot(e.^2, 'r')
-legend('señal','error')
-
-eq_filt=conv(w_eq,h);
-figure
-plot(abs(fft(eq_filt,1000)), 'y')
-hold
-plot(abs(fft(h,1000)), 'r')
-plot(abs(fft(w_eq,1000)))
-legend('Global','Canal','Equalizador')
-
-figure
-stem(eq_filt)
-title('Respuesta impulsiva del filtro equivalente')
+%ylim([0 0.1]);
+xlim([10 10000]);
+title('Variaciones en el canal.');
+xlabel('Tiempo')
+ylabel('J [db]')
